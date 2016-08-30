@@ -26,19 +26,19 @@ Installation
 
     .. code::
 
-        pip install django-autocomplete-light dal_admin_filters``
+        pip install django-autocomplete-light dal_admin_filters
 
 -  Update INSTALLED\_APPS. You need too put django-autocomplete-light before admin
 
     .. code:: python
 
-        INSTALLED_APPS = [
-          'dal',
-          'dal_select2',
-          'dal_admin_filters',
-          #
-          'django.contrib.admin',
-          ... other stuff there ...
+       INSTALLED_APPS = [
+           'dal',
+           'dal_select2',
+           'dal_admin_filters',
+           #
+           'django.contrib.admin',
+           ... other stuff there ...
        ]
 
 Configuration

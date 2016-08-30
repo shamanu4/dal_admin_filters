@@ -104,7 +104,7 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
     @admin.register(Person)
     class PersonAdmin(admin.ModelAdmin):
         class Media:    # Empty media class is required if you are using autocomplete filter
-            pass          # If you know better solution for altering admin.media from filter instance
+            pass        # If you know better solution for altering admin.media from filter instance
                         #   - please contact me or make a pull request
           
         list_filter = [CountryFilter]
