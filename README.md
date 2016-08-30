@@ -40,18 +40,18 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
     ```python
     class Country(models.Model):
         name = models.CharField(max_length=100, unique=True)
-
+    
         def __str__(self):
             return self.name
-
-
+    
+    
     class Person(models.Model):
         name = models.CharField(max_length=100, unique=True)
         from_country = models.ForeignKey(Country)
-
+    
         def __str__(self):
             return self.name
-
+    
     ```
   * Then autocomplete view for country selection will be similar to next
     ``` python
@@ -75,12 +75,12 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
     from your_countries_app.views import CountryAutocomplete
     
     urlpatterns = [
-      url(
-          r'^country-autocomplete/$',
-          CountryAutocomplete.as_view(),
-          name='country-autocomplete',
-      ),
-      url(r'^admin/', admin.site.urls),
+        url(
+            r'^country-autocomplete/$',
+            CountryAutocomplete.as_view(),
+            name='country-autocomplete',
+        ),
+        url(r'^admin/', admin.site.urls),
     ]
     ```    
 * Use filter in your admin.py
@@ -92,22 +92,22 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
     
     @admin.register(Country)
     class CountryAdmin(admin.ModelAdmin):
-      pass
+        pass
     
     
     class CountryFilter(AutocompleteFilter):
-      title = 'Country from'                    # filter's title
-      parameter_name = 'from_country'           # field name - ForeignKey to Country model
-      autocomplete_url = 'country-autocomplete' # url name of Country autocomplete view
+        title = 'Country from'                    # filter's title
+        parameter_name = 'from_country'           # field name - ForeignKey to Country model
+        autocomplete_url = 'country-autocomplete' # url name of Country autocomplete view
     
     
     @admin.register(Person)
     class PersonAdmin(admin.ModelAdmin):
-      class Media:    # Empty media class is required if you are using autocomplete filter
-          pass        # If you know better solution for altering admin.media from filter instance
-                      #   - please contact me or make a pull request
-    
-      list_filter = [CountryFilter]
+        class Media:    # Empty media class is required if you are using autocomplete filter
+            pass          # If you know better solution for altering admin.media from filter instance
+                        #   - please contact me or make a pull request
+          
+        list_filter = [CountryFilter]
     
     ```
 
