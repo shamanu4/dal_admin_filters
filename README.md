@@ -15,10 +15,12 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
 ## Installation
 
 * Install using pip
+  
   ```
   pip install django-autocomplete-light dal_admin_filters
   ```
 * Update INSTALLED_APPS, you need too put django-autocomplete-light before admin
+  
   ```python
   INSTALLED_APPS = [
     'dal',
