@@ -1,7 +1,8 @@
 # dal_admin_filters
 
-
 Django-autocomplete-light filters for django admin.
+
+![alt text](https://s3.amazonaws.com/upload.screenshot.co/5601128ed4 "Admin filter with Select2 input")
 
 ## Requirements
 
@@ -9,7 +10,7 @@ This is extention for django-autocomplete-light so you need to install and confi
 
 Here will be minimum setup for example.
 
-Refer to http://django-autocomplete-light.readthedocs.io/ fore details.
+Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed instructions.
 
 ## Installation
 
@@ -106,5 +107,3 @@ Refer to http://django-autocomplete-light.readthedocs.io/ fore details.
   ```
 
 If setup is done right, you will see the Select2 widget in admin filter in Person's changelist view.
-
-![alt text](https://s3.amazonaws.com/upload.screenshot.co/5601128ed4 "Admin filter with Select2 input")
