@@ -67,22 +67,22 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
         return qs
     ```
 * Register view in urls.py
-    ``` python
-    from your_countries_app.views import CountryAutocomplete
+  ``` python
+  from your_countries_app.views import CountryAutocomplete
 
-    urlpatterns = [
-        url(
-            r'^country-autocomplete/$',
-            CountryAutocomplete.as_view(),
-            name='country-autocomplete',
-        ),
-        url(r'^admin/', admin.site.urls),
-    ]
-    
+  urlpatterns = [
+      url(
+          r'^country-autocomplete/$',
+          CountryAutocomplete.as_view(),
+          name='country-autocomplete',
+      ),
+      url(r'^admin/', admin.site.urls),
+  ]
+  ```    
 * Use filter in your admin.py
   ```python
   from django.contrib import admin
-  from notes.models import Country, Person
+  from your_countries_app.models import Country, Person
   from dal_admin_filters import AutocompleteFilter
 
 
@@ -93,7 +93,7 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
 
   class CountryFilter(AutocompleteFilter):
       title = 'Country from'                    # filter's title
-      parameter_name = 'from_country'			# field name - ForeignKey to Country model
+      parameter_name = 'from_country'			      # field name - ForeignKey to Country model
       autocomplete_url = 'country-autocomplete' # url name of Country autocomplete view
 
 
