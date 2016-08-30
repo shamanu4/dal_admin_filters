@@ -1,0 +1,4 @@
+include README.rst
+include dal_admin_filters/static/dal_admin_filters/css/*.css
+include dal_admin_filters/static/dal_admin_filters/js/*.js
+include dal_admin_filters/templates/dal_admin_filters/*.html

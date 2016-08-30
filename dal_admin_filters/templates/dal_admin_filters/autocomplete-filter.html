@@ -1,0 +1,17 @@
+{% load i18n %}
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+<ul>
+    <li>{{ spec.rendered_widget }}</li>
+</ul>
+<script>
+    (function($) {
+        $(document).ready(function () {
+            $('select[name={{ spec.parameter_name }}]').on(
+                'change',
+                function (e, choice) {
+                    var val = $(e.target).val() || '';
+                    window.location.search = search_replace('{{ spec.parameter_name }}', val);
+                });
+        });
+    })(yl.jQuery);
+</script>
