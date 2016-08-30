@@ -2,7 +2,7 @@
 
 Django-autocomplete-light filters for django admin.
 
-![alt text](https://s3.amazonaws.com/upload.screenshot.co/5601128ed4 "Admin filter with Select2 input")
+![alt text](https://raw.githubusercontent.com/shamanu4/dal_admin_filters/master/shot_01.png "Admin filter with Select2 input")
 
 ## Requirements
 
