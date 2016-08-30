@@ -29,6 +29,7 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
     ... other stuff there ...
   ]
   ```
+  
 ## Configuration
   
 * Create autocomplete view
