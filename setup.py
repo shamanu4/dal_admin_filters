@@ -12,7 +12,7 @@ def read(fname):
 
 setup(
     name='dal_admin_filters',
-    version='0.1.4',
+    version='0.1.5',
     description='Django autocomplete light filters for django admin',
     author='Maxim Musayev',
     author_email='shamanu4@gmail.com',
@@ -23,10 +23,10 @@ setup(
     long_description=read('README.md'),
     license='MIT',
     keywords='django autocomplete admin filters',
-    extras_require={
-        'django': ['django'],
-        'dal': ['django-autocomplete-light'],
-    },
+    install_requires=[
+        'django',
+        'django-autocomplete-light'
+    ],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
