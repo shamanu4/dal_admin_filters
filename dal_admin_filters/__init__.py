@@ -11,6 +11,7 @@ class AutocompleteFilter(SimpleListFilter):
     title = ''
     parameter_name = ''
     autocomplete_url = ''
+    is_placeholder_title = False
 
     class Media:
         css = {
@@ -36,9 +37,12 @@ class AutocompleteFilter(SimpleListFilter):
         field = forms.ModelChoiceField(
             queryset=getattr(model, self.parameter_name).get_queryset(),
             widget=autocomplete.ModelSelect2(
-                url=self.autocomplete_url
+                url=self.autocomplete_url,
             )
         )
+
+        if self.is_placeholder_title:
+            field.widget.attrs = {'data-placeholder' : "By " + self.title}
 
         self.rendered_widget = field.widget.render(
             name=self.parameter_name, value=self.used_parameters.get(self.parameter_name, '')
