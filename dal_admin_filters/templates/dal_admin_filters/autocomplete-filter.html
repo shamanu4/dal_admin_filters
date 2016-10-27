@@ -1,8 +1,12 @@
 {% load i18n %}
-<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
-<ul>
-    <li>{{ spec.rendered_widget }}</li>
-</ul>
+{% if not spec.is_placeholder_title %}
+    <h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+    <ul>
+        <li>{{ spec.rendered_widget }}</li>
+    </ul>
+{% else %}
+    {{ spec.rendered_widget }}
+{% endif %}
 <script>
     (function($) {
         $(document).ready(function () {
