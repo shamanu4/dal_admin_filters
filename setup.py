@@ -24,7 +24,6 @@ setup(
     license='MIT',
     keywords='django autocomplete admin filters',
     install_requires=[
-        'django',
         'django-autocomplete-light'
     ],
     classifiers=[
