@@ -14,6 +14,13 @@ class CountryFilter(AutocompleteFilter):
     autocomplete_url = 'country-autocomplete'
 
 
+class CountryPlaceholderFilter(AutocompleteFilter):
+    title = 'Country from'
+    parameter_name = 'from_country'
+    autocomplete_url = 'country-autocomplete'
+    is_placeholder_title = True
+
+
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
     class Media:
