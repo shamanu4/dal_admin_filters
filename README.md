@@ -1,8 +1,12 @@
 # dal_admin_filters
 
-Django-autocomplete-light filters for django admin.
+## Django-autocomplete-light filters for django admin.
+
+default select2 widget
 
 ![alt text](https://raw.githubusercontent.com/shamanu4/dal_admin_filters/master/shot_01.png "Admin filter with Select2 input")
+
+widget with title as placeholder
 
 ![alt text](https://raw.githubusercontent.com/shamanu4/dal_admin_filters/master/shot_02.png "Admin filter with Select2 input and placeholder title")
 

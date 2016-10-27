@@ -2,12 +2,17 @@ dal_admin_filters
 =================
 
 Django-autocomplete-light filters for django admin.
+---------------------------------------------------
 
-.. figure:: https://raw.githubusercontent.com/shamanu4/dal_admin_filters/master/shot_01.png
-   :alt: Admin filter with Select2 input
+ - default select2 widget
 
-.. figure:: https://raw.githubusercontent.com/shamanu4/dal_admin_filters/master/shot_02.png
-   :alt: Admin filter with Select2 input and placeholder title
+    .. figure:: https://raw.githubusercontent.com/shamanu4/dal_admin_filters/master/shot_01.png
+       :alt: Admin filter with Select2 input
+
+ - widget with filter title as placeholder
+
+    .. figure:: https://raw.githubusercontent.com/shamanu4/dal_admin_filters/master/shot_02.png
+       :alt: Admin filter with Select2 input and placeholder title
 
 
 Requirements
