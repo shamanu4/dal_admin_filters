@@ -75,6 +75,7 @@ Configuration
 
        .. code:: python
 
+           from dal import autocomplete
            from your_countries_app.models import Country
 
            class CountryAutocomplete(autocomplete.Select2QuerySetView):

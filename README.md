@@ -61,6 +61,7 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
     ```
   * Then autocomplete view for country selection will be similar to next
     ``` python
+    from dal import autocomplete
     from your_countries_app.models import Country
     
     class CountryAutocomplete(autocomplete.Select2QuerySetView):
