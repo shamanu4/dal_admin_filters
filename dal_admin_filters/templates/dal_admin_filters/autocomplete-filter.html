@@ -8,7 +8,7 @@
 <script>
     (function($) {
         $(document).ready(function () {
-            $('select[name={{ spec.parameter_name }}]').on(
+            $('#changelist-filter select[name={{ spec.parameter_name }}]').on(
                 'change',
                 function (e, choice) {
                     var val = $(e.target).val() || '';
