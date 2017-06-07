@@ -10,13 +10,13 @@ class CountryAdmin(admin.ModelAdmin):
 
 class CountryFilter(AutocompleteFilter):
     title = 'Country from'
-    parameter_name = 'from_country'
+    field_name = 'from_country'
     autocomplete_url = 'country-autocomplete'
 
 
 class CountryPlaceholderFilter(AutocompleteFilter):
     title = 'Country from'
-    parameter_name = 'from_country'
+    field_name = 'from_country'
     autocomplete_url = 'country-autocomplete'
     is_placeholder_title = True
 

@@ -104,13 +104,13 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
     
     class CountryFilter(AutocompleteFilter):
         title = 'Country from'                    # filter's title
-        parameter_name = 'from_country'           # field name - ForeignKey to Country model
+        field_name = 'from_country'           # field name - ForeignKey to Country model
         autocomplete_url = 'country-autocomplete' # url name of Country autocomplete view
     
     
     class CountryPlaceholderFilter(AutocompleteFilter):
         title = 'Country from'                    # filter's title
-        parameter_name = 'from_country'           # field name - ForeignKey to Country model
+        field_name = 'from_country'           # field name - ForeignKey to Country model
         autocomplete_url = 'country-autocomplete' # url name of Country autocomplete view
         is_placeholder_title = True               # filter title will be shown as placeholder
     
