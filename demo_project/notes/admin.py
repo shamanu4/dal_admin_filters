@@ -21,6 +21,15 @@ class CountryPlaceholderFilter(AutocompleteFilter):
     is_placeholder_title = True
 
 
+class CountryCustomPlaceholderFilter(AutocompleteFilter):
+    title = 'Country from'
+    parameter_name = 'from_country'
+    autocomplete_url = 'country-autocomplete'
+    widget_attrs = {
+        'data-placeholder': 'Filter by country name'
+    }
+
+
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
     class Media:
