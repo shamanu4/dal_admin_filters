@@ -49,9 +49,9 @@ class AutocompleteFilter(SimpleListFilter):
         )
 
         attrs = self.widget_attrs.copy()
+        attrs['id'] = 'id-%s-dal-filter' % self.field_name
         if self.is_placeholder_title:
             attrs['data-placeholder'] = "By " + self.title
-            attrs['id'] = 'id-%s-dal-filter' % self.parameter_name
         self.rendered_widget = field.widget.render(
             name=self.parameter_name,
             value=self.used_parameters.get(self.parameter_name, ''),
