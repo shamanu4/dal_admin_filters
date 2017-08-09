@@ -12,6 +12,7 @@ class AutocompleteFilter(SimpleListFilter):
     field_name = ''
     autocomplete_url = ''
     is_placeholder_title = False
+    widget_attrs = {}
 
     class Media:
         css = {
@@ -47,13 +48,14 @@ class AutocompleteFilter(SimpleListFilter):
             )
         )
 
+        attrs = self.widget_attrs.copy()
         if self.is_placeholder_title:
-            field.widget.attrs = {'data-placeholder' : "By " + self.title}
-
+            attrs['data-placeholder'] = "By " + self.title
+            attrs['id'] = 'id-%s-dal-filter' % self.parameter_name
         self.rendered_widget = field.widget.render(
             name=self.parameter_name,
             value=self.used_parameters.get(self.parameter_name, ''),
-            attrs={'id': 'id-%s-dal-filter' % self.parameter_name}
+            attrs=attrs
         )
 
     def _add_media(self, model_admin):

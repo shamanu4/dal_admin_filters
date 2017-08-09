@@ -133,6 +133,15 @@ Configuration
            is_placeholder_title = True               # filter title will be shown as placeholder
 
 
+        class CountryCustomPlaceholderFilter(AutocompleteFilter):
+            title = 'Country from'                    # filter's title
+            parameter_name = 'from_country'           # field name - ForeignKey to Country model
+            autocomplete_url = 'country-autocomplete' # url name of Country autocomplete view
+            widget_attrs = {
+                'data-placeholder': 'Filter by country name'
+            }
+
+
        @admin.register(Person)
        class PersonAdmin(admin.ModelAdmin):
            class Media:    # Empty media class is required if you are using autocomplete filter
@@ -144,12 +153,3 @@ Configuration
 
 If setup is done right, you will see the Select2 widget in admin filter
 in Person's changelist view.
-
-
-Change log
-------------
-
-Upcoming:
-
-* rename `parameter_name` to `field_name`
-* 
