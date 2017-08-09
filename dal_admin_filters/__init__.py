@@ -45,7 +45,9 @@ class AutocompleteFilter(SimpleListFilter):
             field.widget.attrs = {'data-placeholder' : "By " + self.title}
 
         self.rendered_widget = field.widget.render(
-            name=self.parameter_name, value=self.used_parameters.get(self.parameter_name, '')
+            name=self.parameter_name,
+            value=self.used_parameters.get(self.parameter_name, ''),
+            attrs={'id': 'id-%s-dal-filter' % self.parameter_name}
         )
 
     def _add_media(self, model_admin):
