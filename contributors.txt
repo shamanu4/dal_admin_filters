@@ -1,2 +1,8 @@
-Maxim Musayev <shamanu4@gmail.com>
-Alex Tong <alextong1995@gmail.com>
+Maxim Musayev https://github.com/shamanu4 <shamanu4@gmail.com>
+
+Special thanks to these people for their pull requests:
+
+Alex Tong https://github.com/LunaRabbit <alextong1995@gmail.com>
+Eugene Saladrai https://githubhttps://github.com/xrmx.com/saladrai
+Riccardo Magliocchetti https://github.com/xrmx
+Roman Gorbil https://github.com/ron8mcr
