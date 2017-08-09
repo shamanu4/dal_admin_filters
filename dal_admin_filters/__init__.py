@@ -9,7 +9,7 @@ from django.forms.widgets import Media, MEDIA_TYPES
 class AutocompleteFilter(SimpleListFilter):
     template = "dal_admin_filters/autocomplete-filter.html"
     title = ''
-    parameter_name = ''
+    field_name = ''
     autocomplete_url = ''
     is_placeholder_title = False
 
@@ -30,12 +30,18 @@ class AutocompleteFilter(SimpleListFilter):
         )
 
     def __init__(self, request, params, model, model_admin):
+        if self.parameter_name:
+            raise AttributeError(
+                'Rename attribute `parameter_name` to '
+                '`field_name` for {}'.format(self.__class__)
+            )
+        self.parameter_name = '{}__id__exact'.format(self.field_name)
         super(AutocompleteFilter, self).__init__(request, params, model, model_admin)
 
         self._add_media(model_admin)
 
         field = forms.ModelChoiceField(
-            queryset=getattr(model, self.parameter_name).get_queryset(),
+            queryset=getattr(model, self.field_name).get_queryset(),
             widget=autocomplete.ModelSelect2(
                 url=self.autocomplete_url,
             )
@@ -71,7 +77,6 @@ class AutocompleteFilter(SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value():
-            lookup = "%s__id__exact" % self.parameter_name
-            return queryset.filter(**{lookup: self.value()})
+            return queryset.filter(**{self.parameter_name: self.value()})
         else:
             return queryset
