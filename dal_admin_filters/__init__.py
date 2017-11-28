@@ -45,7 +45,7 @@ class AutocompleteFilter(SimpleListFilter):
         field = forms.ModelChoiceField(
             queryset=getattr(model, self.field_name).get_queryset(),
             widget=autocomplete.ModelSelect2(
-                url=self.autocomplete_url,
+                url=self.get_autocomplete_url(request),
             )
         )
 
@@ -71,6 +71,9 @@ class AutocompleteFilter(SimpleListFilter):
 
         for name in MEDIA_TYPES:
             setattr(model_admin.Media, name, getattr(media, "_" + name))
+
+    def get_autocomplete_url(self, request):
+        return self.autocomplete_url
 
     def has_output(self):
         return True
