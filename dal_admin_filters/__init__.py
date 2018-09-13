@@ -17,7 +17,7 @@ class AutocompleteFilter(SimpleListFilter):
     class Media:
         css = {
             'all': (
-                'autocomplete_light/vendor/select2/dist/css/select2.css',
+                'admin/css/vendor/select2/select2.css',
                 'autocomplete_light/select2.css',
                 'dal_admin_filters/css/autocomplete-fix.css'
             )
@@ -25,7 +25,9 @@ class AutocompleteFilter(SimpleListFilter):
         js = (
             'autocomplete_light/jquery.init.js',
             'autocomplete_light/autocomplete.init.js',
-            'autocomplete_light/vendor/select2/dist/js/select2.full.js',
+            'autocomplete_light/autocomplete.js',
+            'autocomplete_light/forward.js',
+            'admin/js/vendor/select2/select2.full.js',
             'autocomplete_light/select2.js',
             'dal_admin_filters/js/querystring.js',
         )
