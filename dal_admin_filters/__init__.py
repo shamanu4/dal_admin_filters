@@ -38,7 +38,7 @@ class AutocompleteFilter(SimpleListFilter):
                 'Rename attribute `parameter_name` to '
                 '`field_name` for {}'.format(self.__class__)
             )
-        self.parameter_name = '{}__id__exact'.format(self.field_name)
+        self.parameter_name = '{}_id'.format(self.field_name)
         super(AutocompleteFilter, self).__init__(request, params, model, model_admin)
 
         self._add_media(model_admin)
