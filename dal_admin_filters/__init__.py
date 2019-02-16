@@ -10,6 +10,7 @@ class AutocompleteFilter(SimpleListFilter):
     template = "dal_admin_filters/autocomplete-filter.html"
     title = ''
     field_name = ''
+    field_pk = 'id'
     autocomplete_url = ''
     is_placeholder_title = False
     widget_attrs = {}
@@ -38,7 +39,7 @@ class AutocompleteFilter(SimpleListFilter):
                 'Rename attribute `parameter_name` to '
                 '`field_name` for {}'.format(self.__class__)
             )
-        self.parameter_name = '{}_id'.format(self.field_name)
+        self.parameter_name = '{}__{}__exact'.format(self.field_name, self.field_pk)
         super(AutocompleteFilter, self).__init__(request, params, model, model_admin)
 
         self._add_media(model_admin)
@@ -46,7 +47,7 @@ class AutocompleteFilter(SimpleListFilter):
         field = forms.ModelChoiceField(
             queryset=self.get_queryset_for_field(model, self.field_name),
             widget=autocomplete.ModelSelect2(
-                url=self.autocomplete_url,
+                url=self.get_autocomplete_url(request),
             )
         )
 
@@ -75,6 +76,9 @@ class AutocompleteFilter(SimpleListFilter):
 
         for name in MEDIA_TYPES:
             setattr(model_admin.Media, name, getattr(media, "_" + name))
+
+    def get_autocomplete_url(self, request):
+        return self.autocomplete_url
 
     def has_output(self):
         return True
