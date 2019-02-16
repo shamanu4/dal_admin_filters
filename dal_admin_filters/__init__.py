@@ -44,7 +44,7 @@ class AutocompleteFilter(SimpleListFilter):
         self._add_media(model_admin)
 
         field = forms.ModelChoiceField(
-            queryset=getattr(model, self.field_name).get_queryset(),
+            queryset=self.get_queryset_for_field(model, self.field_name),
             widget=autocomplete.ModelSelect2(
                 url=self.autocomplete_url,
             )
@@ -59,6 +59,9 @@ class AutocompleteFilter(SimpleListFilter):
             value=self.used_parameters.get(self.parameter_name, ''),
             attrs=attrs
         )
+
+    def get_queryset_for_field(self, model, name):
+        return getattr(model, self.field_name).get_queryset()
 
     def _add_media(self, model_admin):
 
