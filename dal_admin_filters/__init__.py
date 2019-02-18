@@ -61,7 +61,7 @@ class AutocompleteFilter(SimpleListFilter):
         )
 
     def get_queryset_for_field(self, model, name):
-        return getattr(model, self.field_name).get_queryset()
+        return getattr(model, name).get_queryset()
 
     def _add_media(self, model_admin):
 
