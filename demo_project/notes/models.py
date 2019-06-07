@@ -15,7 +15,7 @@ class Country(models.Model):
 @python_2_unicode_compatible
 class Person(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    from_country = models.ForeignKey(Country)
+    from_country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

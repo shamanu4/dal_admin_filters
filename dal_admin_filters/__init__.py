@@ -10,6 +10,7 @@ class AutocompleteFilter(SimpleListFilter):
     template = "dal_admin_filters/autocomplete-filter.html"
     title = ''
     field_name = ''
+    field_pk = 'id'
     autocomplete_url = ''
     is_placeholder_title = False
     widget_attrs = {}
@@ -17,15 +18,16 @@ class AutocompleteFilter(SimpleListFilter):
     class Media:
         css = {
             'all': (
-                'autocomplete_light/vendor/select2/dist/css/select2.css',
+                'dal_admin_filters/css/select2.min.css',
                 'autocomplete_light/select2.css',
                 'dal_admin_filters/css/autocomplete-fix.css'
             )
         }
         js = (
             'autocomplete_light/jquery.init.js',
+            'dal_admin_filters/js/select2.full.min.js',
             'autocomplete_light/autocomplete.init.js',
-            'autocomplete_light/vendor/select2/dist/js/select2.full.js',
+            'autocomplete_light/forward.js',
             'autocomplete_light/select2.js',
             'dal_admin_filters/js/querystring.js',
         )
@@ -36,7 +38,7 @@ class AutocompleteFilter(SimpleListFilter):
                 'Rename attribute `parameter_name` to '
                 '`field_name` for {}'.format(self.__class__)
             )
-        self.parameter_name = '{}__id__exact'.format(self.field_name)
+        self.parameter_name = '{}__{}__exact'.format(self.field_name, self.field_pk)
         super(AutocompleteFilter, self).__init__(request, params, model, model_admin)
 
         self._add_media(model_admin)
@@ -44,14 +46,14 @@ class AutocompleteFilter(SimpleListFilter):
         field = forms.ModelChoiceField(
             queryset=self.get_queryset_for_field(model, self.field_name),
             widget=autocomplete.ModelSelect2(
-                url=self.autocomplete_url,
+                url=self.get_autocomplete_url(request),
             )
         )
 
         attrs = self.widget_attrs.copy()
         attrs['id'] = 'id-%s-dal-filter' % self.field_name
         if self.is_placeholder_title:
-            attrs['data-placeholder'] = "By " + self.title
+            attrs['data-placeholder'] = self.title
         self.rendered_widget = field.widget.render(
             name=self.parameter_name,
             value=self.used_parameters.get(self.parameter_name, ''),
@@ -59,7 +61,7 @@ class AutocompleteFilter(SimpleListFilter):
         )
 
     def get_queryset_for_field(self, model, name):
-        return getattr(model, self.field_name).get_queryset()
+        return getattr(model, name).get_queryset()
 
     def _add_media(self, model_admin):
 
@@ -73,6 +75,9 @@ class AutocompleteFilter(SimpleListFilter):
 
         for name in MEDIA_TYPES:
             setattr(model_admin.Media, name, getattr(media, "_" + name))
+
+    def get_autocomplete_url(self, request):
+        return self.autocomplete_url
 
     def has_output(self):
         return True
