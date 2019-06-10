@@ -24,6 +24,7 @@ class AutocompleteFilter(SimpleListFilter):
             )
         }
         js = (
+            'admin/js/jquery.init.js',
             'autocomplete_light/jquery.init.js',
             'dal_admin_filters/js/select2.full.min.js',
             'autocomplete_light/autocomplete.init.js',
