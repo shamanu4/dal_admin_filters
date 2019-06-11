@@ -34,12 +34,9 @@ class AutocompleteFilter(SimpleListFilter):
         )
 
     def __init__(self, request, params, model, model_admin):
-        if self.parameter_name:
-            raise AttributeError(
-                'Rename attribute `parameter_name` to '
-                '`field_name` for {}'.format(self.__class__)
-            )
-        self.parameter_name = '{}__{}__exact'.format(self.field_name, self.field_pk)
+        if not self.parameter_name:
+            self.parameter_name = '{}__{}'.format(
+                self.field_name, self.field_pk)
         super(AutocompleteFilter, self).__init__(request, params, model, model_admin)
 
         self._add_media(model_admin)
