@@ -13,6 +13,7 @@ class AutocompleteFilter(SimpleListFilter):
     parameter_name = ''
     autocomplete_url = ''
     is_placeholder_title = False
+    widget = autocomplete.ModelSelect2
     widget_attrs = {}
 
     class Media:
@@ -40,7 +41,7 @@ class AutocompleteFilter(SimpleListFilter):
 
         field = forms.ModelChoiceField(
             queryset=self.get_queryset_for_field(model, self.parameter_name),
-            widget=autocomplete.ModelSelect2(
+            widget=self.widget(
                 url=self.get_autocomplete_url(request),
             )
         )
@@ -56,7 +57,10 @@ class AutocompleteFilter(SimpleListFilter):
         )
 
     def get_queryset_for_field(self, model, field_path):
-        return get_fields_from_path(model, field_path)[-1].related_model.objects.all()
+        field = get_fields_from_path(model, field_path)[-1]
+        if field.is_relation:
+            return field.related_model.objects.all()
+        return field.model.objects.values_list(field.name, flat=True).distinct()
 
     def _add_media(self, model_admin):
 
