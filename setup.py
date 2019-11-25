@@ -1,6 +1,6 @@
 import os
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 # Utility function to read the README file.
@@ -8,15 +8,15 @@ from setuptools import setup, find_packages
 # README file and 2) it's easier to type in the README file than to put a raw
 # string in below ...
 def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+    with open(os.path.join(os.path.dirname(__file__), fname)) as file_:
+        return file_.read()
+
 
 setup(
     name='dal_admin_filters',
-    version='0.3.3',
     description='Django autocomplete light filters for django admin',
-    author='Maxim Musayev',
-    author_email='shamanu4@gmail.com',
-    url='https://github.com/shamanu4/dal_admin_filters',
+    author='Maxim Musayev <shamanu4@gmail.com>, Olivier Dormond <olivier.dormond@pix4d.com>',
+    url='https://github.com/Pix4D/dal_admin_filters',
     packages=['dal_admin_filters'],
     include_package_data=True,
     zip_safe=False,
@@ -26,6 +26,11 @@ setup(
     install_requires=[
         'django-autocomplete-light'
     ],
+    setup_requires=[
+        'setuptools_scm',
+        'wheel',
+    ],
+    use_scm_version=True,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',

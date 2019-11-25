@@ -2,6 +2,7 @@
 from dal import autocomplete
 from django import forms
 from django.contrib.admin.filters import SimpleListFilter
+from django.contrib.admin.utils import get_fields_from_path
 from django.core.exceptions import ImproperlyConfigured
 from django.forms.widgets import Media, MEDIA_TYPES
 
@@ -9,8 +10,7 @@ from django.forms.widgets import Media, MEDIA_TYPES
 class AutocompleteFilter(SimpleListFilter):
     template = "dal_admin_filters/autocomplete-filter.html"
     title = ''
-    field_name = ''
-    field_pk = 'id'
+    parameter_name = ''
     autocomplete_url = ''
     is_placeholder_title = False
     widget_attrs = {}
@@ -34,25 +34,19 @@ class AutocompleteFilter(SimpleListFilter):
         )
 
     def __init__(self, request, params, model, model_admin):
-        if self.parameter_name:
-            raise AttributeError(
-                'Rename attribute `parameter_name` to '
-                '`field_name` for {}'.format(self.__class__)
-            )
-        self.parameter_name = '{}__{}__exact'.format(self.field_name, self.field_pk)
         super(AutocompleteFilter, self).__init__(request, params, model, model_admin)
 
         self._add_media(model_admin)
 
         field = forms.ModelChoiceField(
-            queryset=self.get_queryset_for_field(model, self.field_name),
+            queryset=self.get_queryset_for_field(model, self.parameter_name),
             widget=autocomplete.ModelSelect2(
                 url=self.get_autocomplete_url(request),
             )
         )
 
         attrs = self.widget_attrs.copy()
-        attrs['id'] = 'id-%s-dal-filter' % self.field_name
+        attrs['id'] = 'id-%s-dal-filter' % self.parameter_name
         if self.is_placeholder_title:
             attrs['data-placeholder'] = self.title
         self.rendered_widget = field.widget.render(
@@ -61,8 +55,8 @@ class AutocompleteFilter(SimpleListFilter):
             attrs=attrs
         )
 
-    def get_queryset_for_field(self, model, name):
-        return getattr(model, name).get_queryset()
+    def get_queryset_for_field(self, model, field_path):
+        return get_fields_from_path(model, field_path)[-1].related_model.objects.all()
 
     def _add_media(self, model_admin):
 
