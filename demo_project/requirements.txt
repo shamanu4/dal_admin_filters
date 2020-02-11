@@ -1,4 +1,4 @@
 dal-admin-filters==0.3.3
-Django==2.1.7
+Django==2.2.10
 django-autocomplete-light==3.3.2
 pytz==2018.9
