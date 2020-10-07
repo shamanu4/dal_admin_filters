@@ -2,8 +2,7 @@
 from dal import autocomplete
 from django import forms
 from django.contrib.admin.filters import SimpleListFilter
-from django.core.exceptions import ImproperlyConfigured
-from django.forms.widgets import Media, MEDIA_TYPES
+from django.forms.widgets import Media, MEDIA_TYPES, media_property
 
 
 class AutocompleteFilter(SimpleListFilter):
@@ -64,15 +63,16 @@ class AutocompleteFilter(SimpleListFilter):
     def get_queryset_for_field(self, model, name):
         return getattr(model, name).get_queryset()
 
-    def _add_media(self, model_admin):
+    def _add_media(self, model_admin, widget):
 
         if not hasattr(model_admin, 'Media'):
-            raise ImproperlyConfigured('Add empty Media class to %s. Sorry about this bug.' % model_admin)
+            model_admin.__class__.Media = type('Media', (object,), dict())
+            model_admin.__class__.media = media_property(model_admin.__class__)
 
         def _get_media(obj):
             return Media(media=getattr(obj, 'Media', None))
 
-        media = _get_media(model_admin) + _get_media(AutocompleteFilter) + _get_media(self)
+        media = _get_media(model_admin) + widget.media + _get_media(AutocompleteFilter) + _get_media(self)
 
         for name in MEDIA_TYPES:
             setattr(model_admin.Media, name, getattr(media, "_" + name))
