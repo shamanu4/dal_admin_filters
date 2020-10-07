@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from dal import autocomplete
+from dal import autocomplete, forward
 from django import forms
 from django.contrib.admin.filters import SimpleListFilter
 from django.forms.widgets import Media, MEDIA_TYPES, media_property
@@ -14,6 +14,7 @@ class AutocompleteFilter(SimpleListFilter):
     autocomplete_url = ''
     is_placeholder_title = False
     widget_attrs = {}
+    forwards = []
 
     class Media:
         css = {
@@ -26,6 +27,7 @@ class AutocompleteFilter(SimpleListFilter):
         js = (
             'admin/js/jquery.init.js',
             'autocomplete_light/jquery.init.js',
+            'dal_admin_filters/js/forward-fix.js',
             'dal_admin_filters/js/select2.full.min.js',
             'autocomplete_light/autocomplete.init.js',
             'autocomplete_light/forward.js',
@@ -40,13 +42,13 @@ class AutocompleteFilter(SimpleListFilter):
                 self.parameter_name += '__{}__exact'.format(self.field_pk)
         super(AutocompleteFilter, self).__init__(request, params, model, model_admin)
 
-        self._add_media(model_admin)
+        widget = self.get_widget(request)
+
+        self._add_media(model_admin, widget)
 
         field = forms.ModelChoiceField(
             queryset=self.get_queryset_for_field(model, self.field_name),
-            widget=autocomplete.ModelSelect2(
-                url=self.get_autocomplete_url(request),
-            )
+            widget=widget
         )
 
         attrs = self.widget_attrs.copy()
@@ -75,6 +77,22 @@ class AutocompleteFilter(SimpleListFilter):
 
         for name in MEDIA_TYPES:
             setattr(model_admin.Media, name, getattr(media, "_" + name))
+
+    def get_forwards(self):
+        forwards = []
+        for field in self.forwards:
+            forwards.append(forward.Field(field, field))
+
+        if forwards:
+            return tuple(forwards)
+        return None
+
+    def get_widget(self, request):
+        widget = autocomplete.ModelSelect2(
+            url=self.get_autocomplete_url(request),
+            forward=self.get_forwards(),
+        )
+        return widget
 
     def get_autocomplete_url(self, request):
         return self.autocomplete_url
