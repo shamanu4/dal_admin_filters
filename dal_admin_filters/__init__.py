@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
-from dal import autocomplete
+from dal import autocomplete, forward
 from django import forms
 from django.contrib.admin.filters import SimpleListFilter
-from django.core.exceptions import ImproperlyConfigured
-from django.forms.widgets import Media, MEDIA_TYPES
+from django.forms.widgets import Media, MEDIA_TYPES, media_property
 
 
 class AutocompleteFilter(SimpleListFilter):
@@ -11,9 +10,11 @@ class AutocompleteFilter(SimpleListFilter):
     title = ''
     field_name = ''
     field_pk = 'id'
+    use_pk_exact = True
     autocomplete_url = ''
     is_placeholder_title = False
     widget_attrs = {}
+    forwards = []
 
     class Media:
         css = {
@@ -26,6 +27,7 @@ class AutocompleteFilter(SimpleListFilter):
         js = (
             'admin/js/jquery.init.js',
             'autocomplete_light/jquery.init.js',
+            'dal_admin_filters/js/forward-fix.js',
             'dal_admin_filters/js/select2.full.min.js',
             'autocomplete_light/autocomplete.init.js',
             'autocomplete_light/forward.js',
@@ -34,21 +36,19 @@ class AutocompleteFilter(SimpleListFilter):
         )
 
     def __init__(self, request, params, model, model_admin):
-        if self.parameter_name:
-            raise AttributeError(
-                'Rename attribute `parameter_name` to '
-                '`field_name` for {}'.format(self.__class__)
-            )
-        self.parameter_name = '{}__{}__exact'.format(self.field_name, self.field_pk)
+        if self.parameter_name is None:
+            self.parameter_name = self.field_name
+            if self.use_pk_exact:
+                self.parameter_name += '__{}__exact'.format(self.field_pk)
         super(AutocompleteFilter, self).__init__(request, params, model, model_admin)
 
-        self._add_media(model_admin)
+        widget = self.get_widget(request)
+
+        self._add_media(model_admin, widget)
 
         field = forms.ModelChoiceField(
             queryset=self.get_queryset_for_field(model, self.field_name),
-            widget=autocomplete.ModelSelect2(
-                url=self.get_autocomplete_url(request),
-            )
+            widget=widget
         )
 
         attrs = self.widget_attrs.copy()
@@ -64,18 +64,35 @@ class AutocompleteFilter(SimpleListFilter):
     def get_queryset_for_field(self, model, name):
         return getattr(model, name).get_queryset()
 
-    def _add_media(self, model_admin):
+    def _add_media(self, model_admin, widget):
 
         if not hasattr(model_admin, 'Media'):
-            raise ImproperlyConfigured('Add empty Media class to %s. Sorry about this bug.' % model_admin)
+            model_admin.__class__.Media = type('Media', (object,), dict())
+            model_admin.__class__.media = media_property(model_admin.__class__)
 
         def _get_media(obj):
             return Media(media=getattr(obj, 'Media', None))
 
-        media = _get_media(model_admin) + _get_media(AutocompleteFilter) + _get_media(self)
+        media = _get_media(model_admin) + widget.media + _get_media(AutocompleteFilter) + _get_media(self)
 
         for name in MEDIA_TYPES:
             setattr(model_admin.Media, name, getattr(media, "_" + name))
+
+    def get_forwards(self):
+        forwards = []
+        for field in self.forwards:
+            forwards.append(forward.Field(field, field))
+
+        if forwards:
+            return tuple(forwards)
+        return None
+
+    def get_widget(self, request):
+        widget = autocomplete.ModelSelect2(
+            url=self.get_autocomplete_url(request),
+            forward=self.get_forwards(),
+        )
+        return widget
 
     def get_autocomplete_url(self, request):
         return self.autocomplete_url
