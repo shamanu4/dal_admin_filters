@@ -79,13 +79,10 @@ class AutocompleteFilter(SimpleListFilter):
             setattr(model_admin.Media, name, getattr(media, "_" + name))
 
     def get_forwards(self):
-        forwards = []
-        for field in self.forwards:
-            forwards.append(forward.Field(field, field))
-
-        if forwards:
-            return tuple(forwards)
-        return None
+        return tuple(
+            forward.Field(field, field) if isinstance(field, str) else field
+            for field in self.forwards
+        ) or None
 
     def get_widget(self, request):
         widget = autocomplete.ModelSelect2(
