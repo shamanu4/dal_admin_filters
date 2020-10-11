@@ -161,6 +161,7 @@ Define dependencies between filters (forward)
 - Define forwards in the filter (example from the demo_project)
 
     .. code:: python
+        from dal import forward
 
         class PersonFilter(AutocompleteFilter):
             autocomplete_url = 'person-autocomplete'

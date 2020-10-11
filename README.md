@@ -144,6 +144,8 @@ If setup is done right, you will see the Select2 widget in admin filter in Perso
 - Define forwards in the filter (example from the demo_project)
 
     ```python
+    from dal import forward
+
     class PersonFilter(AutocompleteFilter):
         autocomplete_url = 'person-autocomplete'
         title = 'Owner'
