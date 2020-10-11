@@ -153,3 +153,26 @@ Configuration
 
 If setup is done right, you will see the Select2 widget in admin filter
 in Person's changelist view.
+
+
+Define dependencies between filters (forward)
+---------------------------------------------
+
+- Define forwards in the filter (example from the demo_project)
+
+    .. code:: python
+
+        class PersonFilter(AutocompleteFilter):
+            autocomplete_url = 'person-autocomplete'
+            title = 'Owner'
+            field_name = 'owner'
+            forwards = [
+                forward.Field(
+                    'from_country__id__exact',  # Field name of filter input
+                    'country_id'  # Field name passed to the autocomplete_url endpoint
+                )
+            ]
+
+Read more at  `https://django-autocomplete-light.readthedocs.io/`_. 
+
+.. _https://django-autocomplete-light.readthedocs.io/: https://django-autocomplete-light.readthedocs.io/en/master/tutorial.html#filtering-results-based-on-the-value-of-other-fields-in-the-form
