@@ -2,7 +2,12 @@ Maxim Musayev https://github.com/shamanu4 <shamanu4@gmail.com>
 
 Special thanks to these people for their pull requests:
 
-Alex Tong https://github.com/LunaRabbit <alextong1995@gmail.com>
+Alex Tong https://github.com/LunaRabbit
 Eugene Saladrai https://github.com/saladrai
 Riccardo Magliocchetti https://github.com/xrmx
 Roman Gorbil https://github.com/ron8mcr
+Nikolay Shkrylev https://github.com/snnwolf
+Aleksandr F. https://github.com/alfa24
+Stas Fomin https://github.com/belonesox
+Maxim Zemskov https://github.com/MaximZemskov
+Maks3w https://github.com/Maks3w
