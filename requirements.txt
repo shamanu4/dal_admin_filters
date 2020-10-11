@@ -1,2 +1,2 @@
-Django==2.1.7
-django-autocomplete-light==3.3.2
+Django>=2.2.13
+django-autocomplete-light>=3.3.2
