@@ -1,6 +1,8 @@
 from django.contrib import admin
-from notes.models import Country, Person
 from dal_admin_filters import AutocompleteFilter
+from dal import forward
+
+from notes.models import Country, Person, Asset
 
 
 @admin.register(Country)
@@ -36,3 +38,24 @@ class PersonAdmin(admin.ModelAdmin):
         pass
 
     list_filter = [CountryFilter]
+
+
+class PersonFilter(AutocompleteFilter):
+    autocomplete_url = 'person-autocomplete'
+    title = 'Owner'
+    field_name = 'owner'
+    forwards = [
+        forward.Field(
+            'from_country__id__exact',  # Field name of filter input
+            'country_id'  # Field name passed to the autocomplete_url endpoint
+                          # Read more at https://django-autocomplete-light.readthedocs.io/en/master/tutorial.html#filtering-results-based-on-the-value-of-other-fields-in-the-form
+        )
+    ]
+
+
+@admin.register(Asset)
+class AssetAdmin(admin.ModelAdmin):
+    class Media:
+        pass
+
+    list_filter = [CountryFilter, PersonFilter]

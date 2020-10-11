@@ -1,4 +1,4 @@
-dal-admin-filters==0.3.3
-Django==2.1.7
-django-autocomplete-light==3.3.2
-pytz==2018.9
+dal-admin-filters
+Django>=2.1.7
+django-autocomplete-light>=3.3.2
+pytz

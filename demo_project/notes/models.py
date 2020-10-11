@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from __future__ import unicode_literals
-from django.utils.encoding import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 from django.db import models
 
 
@@ -16,6 +16,16 @@ class Country(models.Model):
 class Person(models.Model):
     name = models.CharField(max_length=100, unique=True)
     from_country = models.ForeignKey(Country, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+@python_2_unicode_compatible
+class Asset(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    from_country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Person, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
