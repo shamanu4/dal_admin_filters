@@ -19,14 +19,11 @@ class AutocompleteFilter(SimpleListFilter):
     class Media:
         css = {
             'all': (
-                'dal_admin_filters/css/select2.min.css',
-                'dal_admin_filters/css/autocomplete-fix.css'
+                'dal_admin_filters/css/autocomplete-fix.css',
             )
         }
         js = (
-            'admin/js/jquery.init.js',
             'dal_admin_filters/js/forward-fix.js',
-            'dal_admin_filters/js/select2.full.min.js',
             'dal_admin_filters/js/querystring.js',
         )
 
