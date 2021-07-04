@@ -20,18 +20,13 @@ class AutocompleteFilter(SimpleListFilter):
         css = {
             'all': (
                 'dal_admin_filters/css/select2.min.css',
-                'autocomplete_light/select2.css',
                 'dal_admin_filters/css/autocomplete-fix.css'
             )
         }
         js = (
             'admin/js/jquery.init.js',
-            'autocomplete_light/jquery.init.js',
             'dal_admin_filters/js/forward-fix.js',
             'dal_admin_filters/js/select2.full.min.js',
-            'autocomplete_light/autocomplete.init.js',
-            'autocomplete_light/forward.js',
-            'autocomplete_light/select2.js',
             'dal_admin_filters/js/querystring.js',
         )
 
