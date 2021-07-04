@@ -20,14 +20,14 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
 
 ## Installation
 
-* Install using pip
-  
+-   Install using pip
+
     ```
     pip install django-autocomplete-light dal_admin_filters
     ```
-    
-* Update INSTALLED_APPS, you need too put django-autocomplete-light before admin
-  
+
+-   Update INSTALLED_APPS, you need too put django-autocomplete-light before admin
+
     ```python
     INSTALLED_APPS = [
         'dal',
@@ -38,49 +38,55 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
         ... other stuff there ...
         ]
     ```
-  
+
 ## Configuration
-  
-* Create autocomplete view
-  * Let our models look like this
+
+-   Create autocomplete view
+
+    -   Let our models look like this
+
+        ```python
+        class Country(models.Model):
+            name = models.CharField(max_length=100, unique=True)
+
+            def __str__(self):
+                return self.name
+
+
+        class Person(models.Model):
+            name = models.CharField(max_length=100, unique=True)
+            from_country = models.ForeignKey(Country)
+
+            def __str__(self):
+                return self.name
+
+        ```
+
+    -   Then autocomplete view for country selection will be similar to next
+
+        ```python
+        from dal import autocomplete
+        from your_countries_app.models import Country
+
+        class CountryAutocomplete(autocomplete.Select2QuerySetView):
+            def get_queryset(self):
+                # Don't forget to filter out results depending on the visitor !
+                if not self.request.user.is_authenticated():
+                    return Country.objects.none()
+
+                qs = Country.objects.all()
+
+                if self.q:
+                    qs = qs.filter(name__istartswith=self.q)
+
+                return qs
+        ```
+
+-   Register view in urls.py
+
     ```python
-    class Country(models.Model):
-        name = models.CharField(max_length=100, unique=True)
-    
-        def __str__(self):
-            return self.name
-    
-    
-    class Person(models.Model):
-        name = models.CharField(max_length=100, unique=True)
-        from_country = models.ForeignKey(Country)
-    
-        def __str__(self):
-            return self.name
-    
-    ```
-  * Then autocomplete view for country selection will be similar to next
-    ``` python
-    from dal import autocomplete
-    from your_countries_app.models import Country
-    
-    class CountryAutocomplete(autocomplete.Select2QuerySetView):
-        def get_queryset(self):
-            # Don't forget to filter out results depending on the visitor !
-            if not self.request.user.is_authenticated():
-                return Country.objects.none()
-        
-            qs = Country.objects.all()
-        
-            if self.q:
-                qs = qs.filter(name__istartswith=self.q)
-        
-            return qs
-    ```
-* Register view in urls.py
-    ``` python
     from your_countries_app.views import CountryAutocomplete
-    
+
     urlpatterns = [
         url(
             r'^country-autocomplete/$',
@@ -89,28 +95,30 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
         ),
         url(r'^admin/', admin.site.urls),
     ]
-    ```    
-* Use filter in your admin.py
+    ```
+
+-   Use filter in your admin.py
+
     ```python
     from django.contrib import admin
     from your_countries_app.models import Country, Person
     from dal_admin_filters import AutocompleteFilter
-    
-    
+
+
     @admin.register(Country)
     class CountryAdmin(admin.ModelAdmin):
         pass
-    
-    
+
+
     class CountryFilter(AutocompleteFilter):
         title = 'Country from'                    # filter's title
-        field_name = 'from_country'           # field name - ForeignKey to Country model
+        field_name = 'from_country'               # field name - ForeignKey to Country model
         autocomplete_url = 'country-autocomplete' # url name of Country autocomplete view
-    
-    
+
+
     class CountryPlaceholderFilter(AutocompleteFilter):
         title = 'Country from'                    # filter's title
-        field_name = 'from_country'           # field name - ForeignKey to Country model
+        field_name = 'from_country'               # field name - ForeignKey to Country model
         autocomplete_url = 'country-autocomplete' # url name of Country autocomplete view
         is_placeholder_title = True               # filter title will be shown as placeholder
 
@@ -129,19 +137,16 @@ Refer to http://django-autocomplete-light.readthedocs.io/ for more detailed inst
         class Media:    # Empty media class is required if you are using autocomplete filter
             pass        # If you know better solution for altering admin.media from filter instance
                         #   - please contact me or make a pull request
-          
+
         list_filter = [CountryFilter]
-    
+
     ```
 
 If setup is done right, you will see the Select2 widget in admin filter in Person's changelist view.
 
-
-
 ## Define dependencies between filters (forward)
 
-
-- Define forwards in the filter (example from the demo_project)
+-   Define forwards in the filter (example from the demo_project)
 
     ```python
     from dal import forward
@@ -153,10 +158,9 @@ If setup is done right, you will see the Select2 widget in admin filter in Perso
         forwards = [
             forward.Field(
                 'from_country__id__exact',  # Field name of filter input
-                'country_id'  # Field name passed to the autocomplete_url endpoint
+                'country_id'                # Field name passed to the autocomplete_url endpoint
             )
         ]
     ```
 
-Read more at [https://django-autocomplete-light.readthedocs.io/](https://django-autocomplete-light.readthedocs.io/en/master/tutorial.html#filtering-results-based-on-the-value-of-other-fields-in-the-form
-)
+Read more at [https://django-autocomplete-light.readthedocs.io/](https://django-autocomplete-light.readthedocs.io/en/master/tutorial.html#filtering-results-based-on-the-value-of-other-fields-in-the-form)
